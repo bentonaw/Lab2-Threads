@@ -11,7 +11,7 @@ namespace Lab2_Threads
         public string Name { get; set; }
         public int Speed { get; set; }
         public DateTime StartTime { get; set; }
-        public List<TimeSpan> TimeLog { get; } = new List<TimeSpan>(); // Added property to log time at each distance
+        public List<DateTime> TimeLog { get; } = new List<DateTime>(); // Added property to log time at each distance
         public int DistanceTraveled { get; set; }
         public bool RaceComplete { get; set; }
 
@@ -39,6 +39,9 @@ namespace Lab2_Threads
 
                 // Calculate sleep duration based on current speed
                 int sleepDuration = totalRaceTime / (distance * Speed / 120);
+
+                // Logs the time the car enters the distance
+                TimeLog.Add(DateTime.Now);
 
                 Thread.Sleep(sleepDuration);
                 DistanceTraveled++;

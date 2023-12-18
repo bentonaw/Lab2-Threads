@@ -13,8 +13,10 @@ namespace Lab2_Threads
             Console.WriteLine("Press enter to start race");
             Console.ReadLine();
 
-            Car car1 = new Car("Kitt", 120);
-            Car car2 = new Car("\"Mach 5\"", 120);
+            int maxSpeed = 120;
+
+            Car car1 = new Car("Kitt", maxSpeed);
+            Car car2 = new Car("\"Mach 5\"", maxSpeed);
 
             int distance = 10;
 
