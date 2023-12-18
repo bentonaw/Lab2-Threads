@@ -36,6 +36,17 @@ namespace Lab2_Threads
                 ? car.TimeLog[adjustedIndex]
                 : DateTime.MaxValue;
         }
+        public static string GetWinner(Car car1, Car car2) 
+        {
+            DateTime car1TimeAt10 = GetTimeAtDistance(car1, 10);
+            DateTime car2TimeAt10 = GetTimeAtDistance(car2, 10);
 
+            if (car1TimeAt10 == car2TimeAt10)
+            {
+                return "It's a tie!";
+            }
+
+            return car1TimeAt10 < car2TimeAt10 ? car1.Name : car2.Name;
+        }
     }
 }

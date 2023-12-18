@@ -23,6 +23,12 @@ namespace Lab2_Threads
             RaceComplete = false;
         }
 
+        // Callback delegate for notifying when the race is complete
+        public delegate void RaceCompleteHandler(Car winner);
+        public event RaceCompleteHandler RaceCompleted;
+
+        private bool isWinnerDeclared = false; // Flag to track if winner has been declared
+
         // The car starts their engine and hits the gas pedal. Scale is adjusted to make the car finish the 10km distance in roughly 30sec instead of 5min (1/10 of original runtime)
         public void PedalToTheMetal(int distance, CountdownEvent countdownEvent)
         {
@@ -55,25 +61,31 @@ namespace Lab2_Threads
             RaceComplete = true;
             Console.WriteLine($"{Name} passes the finishline!");
         }
+       
         public void RaceEvent()
         {
+            int timeScaleModifier = 100;
+            int refuelDuration = 30000 / timeScaleModifier;
+            int tireChangeDuration = 20000 * timeScaleModifier;
+            int cleanWindshieldDuration = 10000 / timeScaleModifier;
+
             Random random = new Random();
             int randomEvent = random.Next(1, 51);
 
             if (randomEvent == 1)
             {
                 Console.WriteLine($"{Name} ran out of gas and needs to refuel. It will stop for 30 seconds.");
-                Thread.Sleep(300);
+                Thread.Sleep(refuelDuration);
             }
             else if (randomEvent == 2)
             {
                 Console.WriteLine($"{Name} got a flat tire and needs to change it. It will stop for 20 seconds.");
-                Thread.Sleep(200);
+                Thread.Sleep(tireChangeDuration);
             }
             else if (randomEvent <= 6)
             {
                 Console.WriteLine($"{Name} has a bird on its windshield and needs to clean it. It will stop for 10 seconds.");
-                Thread.Sleep(100);
+                Thread.Sleep(cleanWindshieldDuration);
             }
             else if (randomEvent <= 16)
             {

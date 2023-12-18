@@ -39,6 +39,8 @@ namespace Lab2_Threads
             car1Thread.Join();
             car2Thread.Join();
 
+            Console.WriteLine($"The winner is... {RaceInfo.GetWinner(car1, car2)}!!"); 
+
             // Stops monitoring key presses
             cancellationTokenSource.Cancel();
         }
