@@ -28,8 +28,6 @@ namespace Lab2_Threads
         public delegate void RaceCompleteHandler(Car winner);
         public event RaceCompleteHandler RaceCompleted;
 
-        private bool isWinnerDeclared = false; // Flag to track if winner has been declared
-
         // The car starts their engine and hits the gas pedal. Scale is adjusted to make the car finish the 10km distance in roughly 30sec instead of 5min (1/10 of original runtime)
         public void PedalToTheMetal(int distance, CountdownEvent countdownEvent, CancellationToken cancellationToken)
         {
