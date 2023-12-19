@@ -58,42 +58,45 @@ namespace Lab2_Threads
                 //lets there be an event every 30 seconds
                 if (i % (distance / 3) == 0)
                 {
-                    RaceEvent();
+                    RaceEvent(cancellationToken);
                 }
             }
             RaceComplete = true;
             Console.WriteLine($"{Name} passes the finishline!");
         }
        
-        public void RaceEvent()
+        public void RaceEvent(CancellationToken cancellationToken)
         {
-            int timeScaleModifier = 100;
-            int refuelDuration = 30000 / timeScaleModifier;
-            int tireChangeDuration = 20000 * timeScaleModifier;
-            int cleanWindshieldDuration = 10000 / timeScaleModifier;
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                int timeScaleModifier = 100;
+                int refuelDuration = 30000 / timeScaleModifier;
+                int tireChangeDuration = 20000 * timeScaleModifier;
+                int cleanWindshieldDuration = 10000 / timeScaleModifier;
 
-            Random random = new Random();
-            int randomEvent = random.Next(1, 51);
+                Random random = new Random();
+                int randomEvent = random.Next(1, 51);
 
-            if (randomEvent == 1)
-            {
-                Console.WriteLine($"{Name} ran out of gas and needs to refuel. It will stop for 30 seconds.");
-                Thread.Sleep(refuelDuration);
-            }
-            else if (randomEvent == 2)
-            {
-                Console.WriteLine($"{Name} got a flat tire and needs to change it. It will stop for 20 seconds.");
-                Thread.Sleep(tireChangeDuration);
-            }
-            else if (randomEvent <= 6)
-            {
-                Console.WriteLine($"{Name} has a bird on its windshield and needs to clean it. It will stop for 10 seconds.");
-                Thread.Sleep(cleanWindshieldDuration);
-            }
-            else if (randomEvent <= 16)
-            {
-                Console.WriteLine($"{Name} has a minor engine problem and its speed is reduced by 1 km/h.");
-                Speed--;
+                if (randomEvent == 1)
+                {
+                    Console.WriteLine($"{Name} ran out of gas and needs to refuel. It will stop for 30 seconds.");
+                    Thread.Sleep(refuelDuration);
+                }
+                else if (randomEvent == 2)
+                {
+                    Console.WriteLine($"{Name} got a flat tire and needs to change it. It will stop for 20 seconds.");
+                    Thread.Sleep(tireChangeDuration);
+                }
+                else if (randomEvent <= 6)
+                {
+                    Console.WriteLine($"{Name} has a bird on its windshield and needs to clean it. It will stop for 10 seconds.");
+                    Thread.Sleep(cleanWindshieldDuration);
+                }
+                else if (randomEvent <= 16)
+                {
+                    Console.WriteLine($"{Name} has a minor engine problem and its speed is reduced by 1 km/h.");
+                    Speed--;
+                }
             }
         }
     }
