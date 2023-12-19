@@ -22,9 +22,10 @@ namespace Lab2_Threads
 
             // countdown to make both cars start at the same time
             CountdownEvent countdownEvent = new CountdownEvent(2);
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            Thread car1Thread = new Thread(() => car1.PedalToTheMetal(distance, countdownEvent));
-            Thread car2Thread = new Thread(() => car2.PedalToTheMetal(distance, countdownEvent));
+            Thread car1Thread = new Thread(() => car1.PedalToTheMetal(distance, countdownEvent, cancellationTokenSource.Token));
+            Thread car2Thread = new Thread(() => car2.PedalToTheMetal(distance, countdownEvent, cancellationTokenSource.Token));
 
             car1Thread.Start();
             car2Thread.Start();
@@ -33,16 +34,23 @@ namespace Lab2_Threads
             countdownEvent.Wait();
 
             // Allow the user to check the race status or exit
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             Task.Run(() => Utility.CheckForKeyPress(cancellationTokenSource.Token, car1, car2, cancellationTokenSource));
 
             car1Thread.Join();
             car2Thread.Join();
-
-            Console.WriteLine($"The winner is... {RaceInfo.GetWinner(car1, car2)}!!"); 
+            if (!cancellationTokenSource.IsCancellationRequested)
+            {
+                Console.WriteLine($"The winner is... {RaceInfo.GetWinner(car1, car2, cancellationTokenSource.Token)}!!");
+            }
+            
+            else
+            {
+                Console.WriteLine("No winners this time");
+            }
 
             // Stops monitoring key presses
             cancellationTokenSource.Cancel();
+            Environment.Exit(0);
         }
     }
 }

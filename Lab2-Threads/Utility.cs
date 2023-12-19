@@ -22,6 +22,7 @@ namespace Lab2_Threads
                     Console.Clear();
                     Console.WriteLine($"{car1.Name}: {car1.DistanceTraveled} km, Speed: {car1.Speed} km/h");
                     Console.WriteLine($"{car2.Name}: {car2.DistanceTraveled} km, Speed: {car2.Speed} km/h");
+                    Console.WriteLine("---");
                     string leader = RaceInfo.GetLeader(car1, car2);
                     if (!leader.Contains("neck and neck"))
                     {
@@ -31,13 +32,13 @@ namespace Lab2_Threads
                     {
                         Console.WriteLine(leader);
                     }
+                    Console.WriteLine("---");
                 }
                 else if (key.Key == ConsoleKey.Escape)
                 {
                     Console.WriteLine("Race has been stopped");
                     cancellationTokenSource.Cancel();
                     Console.WriteLine("Thanks for racing!");
-                    Environment.Exit(0);
                 }
                 else
                 {
